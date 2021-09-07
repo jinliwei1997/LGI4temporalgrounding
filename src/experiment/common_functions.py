@@ -120,9 +120,10 @@ def test(config, loader, net, epoch, eval_logger=None, mode="Test"):
             # forward the network
             net_inps, gts = net.prepare_batch(batch)
             outputs = net.forward_only(net_inps) # only forward
-
+            loss = net.compute_loss(net_inps, gts)["loss"]
+            print(loss)
             # Compute status for current batch: loss, evaluation scores, etc
-            net.compute_status(outputs["net_output"], gts)
+            net.compute_status(outputs["net_output"], gts, loss)
 
             ii += 1
             if config["misc"]["debug"] and (ii > 3):
